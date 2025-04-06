@@ -29,4 +29,8 @@ async def get_current_user(
     user = await user_repository.get_user_by_username(username)
     if user is None:
         raise AuthError
+
+    if not user.is_verified:
+        # return user # uncomment for testing
+        raise AuthError(detail="User not verified.")
     return user

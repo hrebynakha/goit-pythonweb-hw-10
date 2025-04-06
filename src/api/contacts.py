@@ -10,12 +10,19 @@ from src.schemas.contacts import ContactModel, ContactResponse
 from src.services.contacts import ContactService
 from src.dependencies.auth import get_current_user
 from src.exceptions.contacts import ContactNotFound
+from src.schemas.auth import UnauthorizedResponse
 from src.schemas.contacts import ContactNotFoundResponse
 from src.helpers.helpers import filter_normalize
 from src.models.users import User
 
 
-router = APIRouter(prefix="/contacts", tags=["contacts"])
+router = APIRouter(
+    prefix="/contacts",
+    tags=["contacts"],
+    responses={
+        401: {"model": UnauthorizedResponse, "description": "Unauthorized"},
+    },
+)
 
 
 @router.get("/", response_model=List[ContactResponse])
@@ -34,7 +41,10 @@ async def read_contacts(
     return contacts
 
 
-@router.get("/get-upcoming-birthday", response_model=List[ContactResponse])
+@router.get(
+    "/get-upcoming-birthday",
+    response_model=List[ContactResponse],
+)
 async def get_upcoming_birthday(
     skip: int = 0,
     limit: int = 100,

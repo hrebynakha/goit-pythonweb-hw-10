@@ -19,7 +19,7 @@ class Contact(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     first_name: Mapped[str] = mapped_column(String(50), nullable=False)
     last_name: Mapped[str] = mapped_column(String(50), nullable=False)
-    email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(String(255), nullable=False)
     phone: Mapped[str] = mapped_column(String(20), nullable=True)
     birthday: Mapped[date] = mapped_column(Date, nullable=True)
     description: Mapped[str] = mapped_column(String(255), nullable=True)
