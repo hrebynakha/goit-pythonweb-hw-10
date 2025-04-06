@@ -1,7 +1,7 @@
 """Main app entrypoint"""
 
 from fastapi import FastAPI, Request, status
-from src.api import utils, contacts
+from src.api import utils, contacts, auth, users
 
 from src.exceptions.core import AppHttpError, AppValueError, AppKeyError
 from src.exceptions.contacts import EmailValueError, ContactNotFound
@@ -16,6 +16,8 @@ app = FastAPI(
 
 app.include_router(utils.router, prefix="/api")
 app.include_router(contacts.router, prefix="/api")
+app.include_router(auth.router, prefix="/api")
+app.include_router(users.router, prefix="/api")
 
 
 @app.exception_handler(AppValueError)

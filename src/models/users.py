@@ -1,5 +1,6 @@
 from datetime import datetime
-from sqlalchemy import Integer, String, func
+from typing import Optional
+from sqlalchemy import Integer, String, func, Boolean
 from sqlalchemy.orm import mapped_column, Mapped
 from sqlalchemy.sql.sqltypes import DateTime
 
@@ -16,3 +17,5 @@ class User(Base):
         "created_at", DateTime, default=func.now()  # pylint: disable=not-callable
     )
     avatar: Mapped[str] = mapped_column(String(255), nullable=True)
+    refresh_token: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    is_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
