@@ -94,7 +94,7 @@ class TokenService:
 
 
 class AuthService(TokenService):
-    def __init__(self, db: AsyncSession = None):
+    def __init__(self, db: AsyncSession):
 
         self.user_repository = UserRepository(db)
 
