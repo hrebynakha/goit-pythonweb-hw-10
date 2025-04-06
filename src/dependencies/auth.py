@@ -31,6 +31,6 @@ async def get_current_user(
         raise AuthError
 
     if not user.is_verified:
-        # return user # uncomment for testing
+        # return user  # uncomment for testing
         raise AuthError(detail="User not verified.")
     return user

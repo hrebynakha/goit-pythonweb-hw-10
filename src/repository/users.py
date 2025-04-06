@@ -36,7 +36,7 @@ class UserRepository:
         return user
 
     async def update_user_refresh_token(self, username: str, token: str) -> User:
-        user = self.get_user_by_username(username)
+        user = await self.get_user_by_username(username)
         user.refresh_token = token
         await self.db.commit()
         await self.db.refresh(user)
@@ -50,3 +50,8 @@ class UserRepository:
         )
         user = await self.db.execute(query)
         return user.scalar_one_or_none()
+
+    async def confirmed_email(self, email: str):
+        user = await self.get_user_by_email(email)
+        user.is_verified = True
+        await self.db.commit()

@@ -19,3 +19,23 @@ class RegistrationError(AppHttpError):
         headers: dict = None,
     ):
         super().__init__(status_code, detail, headers)
+
+
+class InvalidVerificationTokenError(AppHttpError):
+    def __init__(
+        self,
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        detail: str = "Invalid email verification token",
+        headers: dict = None,
+    ):
+        super().__init__(status_code, detail, headers)
+
+
+class VerificationError(AppHttpError):
+    def __init__(
+        self,
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail: str = "Verification error",
+        headers: dict = None,
+    ):
+        super().__init__(status_code, detail, headers)

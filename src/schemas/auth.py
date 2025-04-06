@@ -16,3 +16,7 @@ class UnauthorizedResponse(ErrorResponseModel):
     """Contact not authorized schehma"""
 
     detail: str = Field(default="User not authorized.")
+
+
+class EmailVerifyResponse(BaseModel):
+    message: str

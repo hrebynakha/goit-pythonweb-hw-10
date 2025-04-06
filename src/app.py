@@ -1,8 +1,12 @@
 """Main app entrypoint"""
 
 from fastapi import FastAPI, Request, status
+from fastapi.middleware.cors import CORSMiddleware
+from slowapi.errors import RateLimitExceeded
+
 from src.api import utils, contacts, auth, users
 
+from src.conf.config import settings
 from src.exceptions.core import AppHttpError, AppValueError, AppKeyError
 from src.exceptions.contacts import EmailValueError, ContactNotFound
 from src.schemas.core import ErrorResponseModel
@@ -13,11 +17,27 @@ app = FastAPI(
         400: {"model": ErrorResponseModel, "description": "Bad request"},
     }
 )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.ALLOWED_CORS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 app.include_router(utils.router, prefix="/api")
 app.include_router(contacts.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
 app.include_router(users.router, prefix="/api")
+
+
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_handler(request: Request, error: RateLimitExceeded):
+    raise AppHttpError(
+        status_code=429,
+        detail="Request limit exceeded. Please try again later.",
+    )
 
 
 @app.exception_handler(AppValueError)
