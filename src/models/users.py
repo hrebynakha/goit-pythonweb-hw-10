@@ -1,5 +1,3 @@
-"""Contacts models"""
-
 from datetime import datetime
 from sqlalchemy import Integer, String, func
 from sqlalchemy.orm import mapped_column, Mapped
