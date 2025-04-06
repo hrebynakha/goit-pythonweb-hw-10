@@ -3,7 +3,7 @@ include .env
 db:
 	docker run --name hw08 -p 5432:5432 -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} -d postgres
 migration:
-	alembic revision --autogenerate -m 'Init'
+	alembic revision --autogenerate -m $($m)
 migrate:
 	alembic upgrade head
 f:
