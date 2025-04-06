@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from sqlalchemy import pool
 from alembic import context
 
-from src.conf.config import config as conf
+from src.conf.config import settings as conf
 from src.database.basic import Base
 import src.models
 
@@ -26,7 +26,7 @@ if config.config_file_name is not None:
 
 
 target_metadata = Base.metadata
-config.set_main_option("sqlalchemy.url", conf.get_db_url())
+config.set_main_option("sqlalchemy.url", conf.DB_URL)
 
 
 def run_migrations(connection: Connection):
