@@ -38,7 +38,7 @@ async def login_user(
     if not user or not Hash().verify_password(form_data.password, user.hashed_password):
         raise AuthError(detail="User or password is incorrect")
 
-    return AuthService(db).geneate_jwt(user.username)
+    return await AuthService(db).geneate_jwt(user.username)
 
 
 @router.post("/refresh-token", response_model=Token)
@@ -48,4 +48,4 @@ async def new_token(request: TokenRefreshRequest, db: AsyncSession = Depends(get
     if user is None:
         raise AuthError(detail="Invalid or expired refresh token")
 
-    return auth_service.update_jwt(user.username, request.refresh_token)
+    return await auth_service.update_jwt(user.username, request.refresh_token)

@@ -1,22 +1,16 @@
 from datetime import datetime, timedelta, timezone
 from typing import Optional, Literal
 
-from fastapi import Depends
-from fastapi.security import OAuth2PasswordBearer
 
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
+
 from src.conf.config import settings
-
 from src.repository.users import UserRepository
-from src.exceptions.auth import AuthError
 from src.schemas.users import User
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
 
 class Hash:
@@ -27,23 +21,6 @@ class Hash:
 
     def get_password_hash(self, password: str):
         return self.pwd_context.hash(password)
-
-
-async def get_current_user(self, token: str = Depends(oauth2_scheme)):
-    try:
-        payload = jwt.decode(
-            token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM]
-        )
-        username = payload.get("sub")
-        if username is None:
-            raise AuthError
-    except JWTError as e:
-        raise AuthError(detail=str(e)) from e
-
-    user = await self.user_repository.get_user_by_username(username)
-    if user is None:
-        raise AuthError
-    return user
 
 
 class AuthService:
