@@ -25,5 +25,5 @@ limiter = Limiter(key_func=get_remote_address)
 @limiter.limit("5/minute")
 async def me(
     request: Request, user: UserModel = Depends(get_current_user)
-):  # pylint: disable=unused-argument
+):  # pylint: disable=unused-argument # without request issue https://github.com/laurentS/slowapi/issues/177
     return user

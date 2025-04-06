@@ -15,6 +15,7 @@ from src.repository.users import UserRepository
 from src.schemas.users import User
 
 
+# tmp fix for   https://github.com/pyca/bcrypt/issues/684
 @dataclass
 class SolveBugBcryptWarning:
     __version__: str = getattr(bcrypt, "__version__")
