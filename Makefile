@@ -14,5 +14,5 @@ up:
 	poetry export --without-hashes -f requirements.txt --output requirements.txt
 	docker-compose up -d
 migr:
-	@img=$$(docker ps -aqf "name=goit-pythonweb-hw-08_app") && \
+	@img=$$(docker ps -aqf "name=goit-pythonweb-hw-10_app") && \
 	docker exec -it $$img sh -c "alembic upgrade head"
